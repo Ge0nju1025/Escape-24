@@ -1,0 +1,3 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{episodes,decide,mockAnalysis}from'../src/story';
+test('all five episode branches require every criterion',()=>{episodes.forEach((e,i)=>{assert.equal(decide(i,e.actions,[]).ready,true);assert.equal(decide(i,[],[]).ready,false);assert.equal(decide(i,e.actions,['reentry']).ready,false);});});
+test('mock rejects explicit reentry and accepts teacher-guided EP01',()=>{const a=mockAnalysis('침착하게 선생님 안내를 따라 대피하자');assert.equal(decide(0,a.actions,a.unsafe).ready,true);const b=mockAnalysis('가방 가지러 가');assert.equal(b.unsafe.length,1);});

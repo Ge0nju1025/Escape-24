@@ -1,0 +1,4 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{existsSync,readFileSync}from'node:fs';import{emotions,portraitAsset,backgrounds,menuBackground}from'../src/assets';
+test('every character emotion and every scene has a real image',()=>{for(const name of ['민수','지은','준호'])for(const emotion of emotions)assert.ok(existsSync('public'+portraitAsset(name,emotion)),`${name}/${emotion}`);for(const p of [...backgrounds,menuBackground])assert.ok(existsSync('public'+p),p);});
+test('unsupported emotion uses the neutral illustration',()=>{assert.equal(portraitAsset('민수','invalid'),portraitAsset('민수','neutral'));});
+test('active novel has no placeholder character SVG and uses image episode cards',()=>{const s=readFileSync('src/novel.tsx','utf8');assert.ok(!s.includes('<svg'));assert.ok(s.includes('className="episode-card"'));assert.ok(!s.includes('className="windows"'));});
